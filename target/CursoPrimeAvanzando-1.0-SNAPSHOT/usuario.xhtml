@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>                
+    </h:head>
+    <body>                
+        <h:form>
+            <p:messages id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="true" showDetail="true"/>
+
+            <p:fieldset legend="Datos Personales" >
+                <h:panelGrid columns="3" id="pgDatos">
+                    <p:outputLabel for="txtNombres" value="Nombres" />
+                    <p:inputText id="txtNombres" value="#{usuarioController.persona.nombres}" required="true" />
+                    <p:message for="txtNombres" />
+
+                    <p:outputLabel for="txtApellidos" value="Apellidos" />            
+                    <p:inputText id="txtApellidos" value="#{usuarioController.persona.apellidos}" required="true"/>
+                    <p:message for="txtApellidos" />
+
+                    <p:outputLabel for="rdbSexo" value="Sexo" />
+                    <p:selectOneRadio id="rdbSexo" value="#{usuarioController.persona.sexo}" required="true">
+                        <f:selectItem itemValue="M" itemLabel="MASCULINO" />
+                        <f:selectItem itemValue="F" itemLabel="FEMENINO" />
+                    </p:selectOneRadio>
+                    <p:message for="rdbSexo" />
+
+                    <p:outputLabel for="txtFecha" value="Fec. Nacimiento" />
+                    <p:calendar id="txtFecha" value="#{usuarioController.persona.fechaNacimiento}" locale="es" required="true"/>
+                    <p:message for="txtFecha" />
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="Datos de la cuenta">
+                <h:panelGrid columns="3" id="pgCuenta">
+                    <p:outputLabel for="cboTipo" value="Tipo de Cuenta" />
+                    <p:selectOneMenu id="cboTipo" value="#{usuarioController.usuario.tipo}" required="true" requiredMessage="Campo requerido">
+                        <f:selectItem itemValue="A" itemLabel="Administrador"/> 
+                        <f:selectItem itemValue="O" itemLabel="Operario"/> 
+                    </p:selectOneMenu>
+                    <p:message for="cboTipo" />
+                    
+                    <p:outputLabel for="txtUsuario" value="Usuario" />
+                    <p:inputText id="txtUsuario" value="#{usuarioController.usuario.usuario}" required="true" requiredMessage="Campo requerido"/>
+                    <p:message for="txtUsuario" />
+
+                    <p:outputLabel for="clave1" value="Clave"/>
+                    <p:password id="clave1" value="#{usuarioController.usuario.clave}" required="true" requiredMessage="Campo requerido"
+                                validatorMessage="Las claves no coinciden." weakLabel="Débil" strongLabel="Fuerte" goodLabel="Bueno"
+                                match="clave2" feedback="true" promptLabel="Ingrese una clave"/>
+                    <p:message for="clave1" />
+
+                    <p:outputLabel for="clave2" value="Repetir Clave" />
+                    <p:password id="clave2" required="true" requiredMessage="Campo requerido"/>
+                    <p:message for="clave2" />
+                    
+                </h:panelGrid>
+
+                <p:commandButton icon="ui-icon-check" value="Registrar" update="pgDatos, pgCuenta, mensaje" actionListener="#{usuarioController.registrar()}"/>
+            </p:fieldset>           
+        </h:form>
+        <h:outputScript library="js" name="spanishLocale.js" />
+    </body>
+</html>
