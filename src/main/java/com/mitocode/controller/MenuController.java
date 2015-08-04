@@ -29,7 +29,8 @@ public class MenuController implements Serializable {
     public void init() {
         this.listarMenus();
         model = new DefaultMenuModel();
-        this.establecerPermisos();
+        //this.establecerPermisos();
+        this.recorreMenu();
     }
 
     public void listarMenus() {
@@ -47,7 +48,44 @@ public class MenuController implements Serializable {
     public void setModel(MenuModel model) {
         this.model = model;
     }
-
+    private DefaultSubMenu recursivoSubMenu(DefaultSubMenu firstSubmenu, int cveModulo) {
+        List<Menu> lstHijos = ListaItem(cveModulo);
+        for (Menu m : lstHijos) {
+            if (m.getTipo().equals("S")) {
+                DefaultSubMenu subMenu = new DefaultSubMenu(m.getNombre());
+                firstSubmenu.addElement(recursivoSubMenu(subMenu, m.getCodigo()));
+            } else {
+                DefaultMenuItem item = new DefaultMenuItem(m.getNombre());
+                item.setUrl(m.getUrl());                
+                firstSubmenu.addElement(item);     
+            }
+        }
+        return firstSubmenu;
+    }
+     private List<Menu> ListaItem(int codigoSubmenu) {
+        List<Menu> lstItem = new ArrayList<>();
+        for (Menu m : lista) {
+            if ((m.getSubmenu()==null?0:m.getSubmenu().getCodigo()) == codigoSubmenu) {
+                lstItem.add(m);
+            }
+        }
+        return lstItem;
+    }
+     public void recorreMenu() { 
+        Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        model = new DefaultMenuModel();
+        List<Menu> lstItem = ListaItem(0);     
+       for (Menu m : lstItem) {
+           if (m.getTipo().equals("S") && m.getSubmenu()==null && m.getTipoUsuario().equals(us.getTipo())) {
+               DefaultSubMenu firstSubmenu = new DefaultSubMenu(m.getNombre());
+               model.addElement(recursivoSubMenu(firstSubmenu, m.getCodigo()));
+           } else {
+               DefaultMenuItem item = new DefaultMenuItem(m.getNombre());
+               item.setUrl(m.getUrl());              
+               model.addElement(item);
+           }
+       }
+    }
     public void establecerPermisos() {
         Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         
