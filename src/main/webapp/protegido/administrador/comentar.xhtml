@@ -15,8 +15,10 @@
 
                 <h:form>
                     <p:messages autoUpdate="true" showSummary="false" showDetail="true"/>
-                    
-                    <p:dataTable value="#{comentarController.notas}" var="nota">
+
+                    <p:dataTable value="#{comentarController.notas}" var="nota" paginator="true" rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" currentPageReportTemplate="Página: ({currentPage} de {totalPages})">
                         <p:column headerText="Persona" >
                             <h:outputText value="#{nota.persona.apellidos}, #{nota.persona.nombres}" />
                         </p:column>
