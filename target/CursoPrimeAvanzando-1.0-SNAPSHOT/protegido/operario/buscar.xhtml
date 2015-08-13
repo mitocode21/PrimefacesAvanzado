@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form>
+                    <h:panelGrid columns="5" >
+                        <p:outputLabel for="cal" value="Fecha" />
+                        <p:calendar id="cal" locale="es" required="true" value="#{buscarController.fechaConsulta}" pattern="dd/MM/yyyy"/>
+
+                        <p:outputLabel for="cboCategoria" value="Categoria" />
+                        <p:selectOneMenu id="cboCategoria" required="true" value="#{buscarController.codigoCategoria}">
+                            <f:selectItems value="#{buscarController.listaCategorias}" var="cat" itemLabel="#{cat.nombre}" itemValue="#{cat.codigo}" />
+                            <f:selectItem itemLabel="SELECCIONE" itemValue="#{null}" noSelectionOption="true" />                            
+                        </p:selectOneMenu>
+
+                        <p:commandButton icon="ui-icon-search" value="Buscar" update="grid" actionListener="#{buscarController.buscar()}"/>
+                    </h:panelGrid>
+
+                    <p:dataGrid id="grid" value="#{buscarController.listaNotas}" var="nota">
+                        <p:panel header="#{nota.categoria.nombre}" >
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="#{nota.encabezado}"/>
+                                <p:outputLabel value="#{nota.cuerpo}"/>
+                                <p:inputTextarea value="#{nota.comentarioAdmin}" disabled="true"/>
+                                <p:rating value="#{nota.valorizacion}" readonly="true"/>                            
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                </h:form>
+
+                <h:outputScript library="js" name="spanishLocale.js" />
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
