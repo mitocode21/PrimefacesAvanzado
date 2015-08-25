@@ -1,6 +1,7 @@
 com\mitocode\model\Telefono_.class
 com\mitocode\controller\ComentarController.class
 com\mitocode\model\Nota_.class
+com\mitocode\controller\BuscarController.class
 com\mitocode\model\Usuario_.class
 com\mitocode\ejb\AbstractFacade.class
 com\mitocode\controller\UsuarioController.class

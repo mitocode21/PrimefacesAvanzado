@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form id="frmPrincipal">
+                    <h1>Teléfonos</h1>
+                    <p:commandButton icon="ui-icon-plusthick" value="Nuevo" onclick="PF('wdialogo').show();"/>
+
+                    <p:dataTable id="tabla" emptyMessage="Nigún número registrado" value="#{telefonoController.telefonos}" var="tel">
+                        <p:column headerText="Número" filterBy="#{tel.numero}" filterMatchMode="contains">
+                            <h:outputText value="#{tel.numero}" />
+                        </p:column>
+
+                        <p:column headerText="Editar" >
+                            <p:commandLink value="Editar">
+                                
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog id="dialogo" widgetVar="wdialogo" header="Nuevo Teléfono" modal="true" resizable="false" closeOnEscape="true" draggable="false">
+                    <h:form>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="txtNumero" value="Número" />
+                            <p:inputMask id="txtNumero" mask="9?99999999" slotChar="" required="true" value="#{telefonoController.telefono.numero}"/>
+                            <p:commandButton value="Registrar" icon="ui-icon-check" update=":frmPrincipal:tabla" actionListener="#{telefonoController.registrar()}" oncomplete="PF('wdialogo').hide();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" onclick="PF('wdialogo').hide();"/>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
