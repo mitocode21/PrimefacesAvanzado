@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h1>Consultar Teléfonos</h1>
+
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Persona" />
+                        <p:selectOneMenu value="#{consultarController.codigoPersona}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{consultarController.personas}" var="per" itemLabel="#{per.apellidos}, #{per.nombres}" itemValue="#{per.codigo}" />
+                        </p:selectOneMenu>
+
+                        <p:commandButton icon="ui-icon-search" value="Buscar" update="lista" actionListener="#{consultarController.buscarTelefonos()}"/>
+                    </h:panelGrid>
+                    
+                    <p:dataList id="lista" emptyMessage="No hay resultados a mostrar" value="#{consultarController.telefonos}" var="tel">
+                        #{tel.numero}
+                    </p:dataList>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -30,4 +30,5 @@ public interface TelefonoFacadeLocal {
 
     int count();
     
+    List<Telefono> buscarTelefono(int codigoPersona) throws Exception;
 }
