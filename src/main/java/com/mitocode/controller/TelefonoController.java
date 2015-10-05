@@ -21,6 +21,15 @@ public class TelefonoController implements Serializable {
     @Inject
     private Telefono telefono;
     private List<Telefono> telefonos;
+    private String accion;
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {        
+        this.accion = accion;
+    }
 
     public List<Telefono> getTelefonos() {
         return telefonos;
@@ -37,9 +46,9 @@ public class TelefonoController implements Serializable {
     public void setTelefono(Telefono telefono) {
         this.telefono = telefono;
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         telefonos = telefonoEJB.findAll();
     }
 
@@ -47,6 +56,15 @@ public class TelefonoController implements Serializable {
         Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
         telefono.setPersona(us.getCodigo());
         telefonoEJB.create(telefono);
-        telefonos = telefonoEJB.findAll();
+        telefonos = telefonoEJB.findAll();        
+    }
+
+    public void leer(Telefono telfSeleccion) {
+        telefono = telfSeleccion;
+        this.setAccion("M");
+    }
+    
+    public void modificar(){
+        telefonoEJB.edit(telefono);        
     }
 }

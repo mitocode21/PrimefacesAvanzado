@@ -12,7 +12,7 @@
             <ui:define name="content">
                 <h:form id="frmPrincipal">
                     <h1>Teléfonos</h1>
-                    <p:commandButton icon="ui-icon-plusthick" value="Nuevo" onclick="PF('wdialogo').show();"/>
+                    <p:commandButton icon="ui-icon-plusthick" value="Nuevo" onclick="PF('wdialogo').show();" actionListener="#{telefonoController.setAccion('R')}" update=":frmDialogo"/>
 
                     <p:dataTable id="tabla" emptyMessage="Nigún número registrado" value="#{telefonoController.telefonos}" var="tel">
                         <p:column headerText="Número" filterBy="#{tel.numero}" filterMatchMode="contains">
@@ -20,20 +20,21 @@
                         </p:column>
 
                         <p:column headerText="Editar" >
-                            <p:commandLink value="Editar">
-                                
+                            <p:commandLink actionListener="#{telefonoController.leer(tel)}" oncomplete="PF('wdialogo').show();" update="dialogo">
+                                <h:graphicImage library="images" name="edit.png" />
                             </p:commandLink>
                         </p:column>
                     </p:dataTable>
                 </h:form>
 
                 <p:dialog id="dialogo" widgetVar="wdialogo" header="Nuevo Teléfono" modal="true" resizable="false" closeOnEscape="true" draggable="false">
-                    <h:form>
+                    <h:form id="frmDialogo">
                         <h:panelGrid columns="2">
                             <p:outputLabel for="txtNumero" value="Número" />
                             <p:inputMask id="txtNumero" mask="9?99999999" slotChar="" required="true" value="#{telefonoController.telefono.numero}"/>
-                            <p:commandButton value="Registrar" icon="ui-icon-check" update=":frmPrincipal:tabla" actionListener="#{telefonoController.registrar()}" oncomplete="PF('wdialogo').hide();"/>
-                            <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" onclick="PF('wdialogo').hide();"/>
+                            <p:commandButton value="Registrar" icon="ui-icon-check" update=":frmPrincipal:tabla" actionListener="#{telefonoController.registrar()}" oncomplete="PF('wdialogo').hide();" rendered="#{telefonoController.accion == 'R'}"/>
+                            <p:commandButton value="Modificar" icon="ui-icon-check" update=":frmPrincipal:tabla" actionListener="#{telefonoController.modificar()}" oncomplete="PF('wdialogo').hide();" rendered="#{telefonoController.accion == 'M'}"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" immediate="true" onclick="PF('wdialogo').hide();" />
                         </h:panelGrid>
                     </h:form>
                 </p:dialog>
