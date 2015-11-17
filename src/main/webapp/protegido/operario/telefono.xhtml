@@ -3,27 +3,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
 
             <ui:define name="content">
+                <p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+                
                 <h:form id="frmPrincipal">
                     <h1>Teléfonos</h1>
                     <p:commandButton icon="ui-icon-plusthick" value="Nuevo" onclick="PF('wdialogo').show();" actionListener="#{telefonoController.setAccion('R')}" update=":frmDialogo"/>
 
-                    <p:dataTable id="tabla" emptyMessage="Nigún número registrado" value="#{telefonoController.telefonos}" var="tel">
-                        <p:column headerText="Número" filterBy="#{tel.numero}" filterMatchMode="contains">
-                            <h:outputText value="#{tel.numero}" />
+                    <p:dataTable id="tabla" emptyMessage="Nigún número registrado" value="#{telefonoController.telefonos}" var="tel"
+                                 editable="true">
+
+                        <p:column style="width:32px">
+                            <p:rowEditor />
                         </p:column>
 
-                        <p:column headerText="Editar" >
-                            <p:commandLink actionListener="#{telefonoController.leer(tel)}" oncomplete="PF('wdialogo').show();" update="dialogo">
-                                <h:graphicImage library="images" name="edit.png" />
-                            </p:commandLink>
+                        <p:column headerText="Número" filterBy="#{tel.numero}" filterMatchMode="contains" >
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{tel.numero}" />
+                                </f:facet>
+
+                                <f:facet name="input">
+                                    <p:inputText value="#{tel.numero}" />
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
+                        
+                        <p:ajax event="rowEdit" listener="#{telefonoController.modificar(tel)}" />
+ 
+                        <!-- <p:column headerText="Editar" >
+                              <p:commandLink actionListener="{telefonoController.leer(tel)}" oncomplete="PF('wdialogo').show();" update="dialogo">
+                                 <h:graphicImage library="images" name="edit.png" />
+                             </p:commandLink> 
+                         </p:column>-->
+
+
                     </p:dataTable>
                 </h:form>
 

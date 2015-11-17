@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -64,7 +65,8 @@ public class TelefonoController implements Serializable {
         this.setAccion("M");
     }
     
-    public void modificar(){
-        telefonoEJB.edit(telefono);        
+    public void modificar(Telefono tel){
+        telefonoEJB.edit(tel);        
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se modificó"));
     }
 }
