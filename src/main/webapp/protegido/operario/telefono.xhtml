@@ -15,7 +15,7 @@
                 
                 <h:form id="frmPrincipal">
                     <h1>Teléfonos</h1>
-                    <p:commandButton icon="ui-icon-plusthick" value="Nuevo" onclick="PF('wdialogo').show();" actionListener="#{telefonoController.setAccion('R')}" update=":frmDialogo"/>
+                    <p:commandButton icon="ui-icon-plusthick" value="Nuevo" actionListener="#{telefonoController.mostrarDialogo()}" update=":frmDialogo"/>
 
                     <p:dataTable id="tabla" emptyMessage="Nigún número registrado" value="#{telefonoController.telefonos}" var="tel"
                                  editable="true">

@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 @Named
 @ViewScoped
@@ -68,5 +69,13 @@ public class TelefonoController implements Serializable {
     public void modificar(Telefono tel){
         telefonoEJB.edit(tel);        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se modificó"));
+    }
+    
+    public void mostrarDialogo(){
+        //logica
+        this.setAccion("R");
+        
+        RequestContext req = RequestContext.getCurrentInstance();
+        req.execute("PF('wdialogo').show();");
     }
 }
